@@ -136,7 +136,7 @@ POST /api/accessrecords
 }
 ```
 
-La documentación OpenAPI queda publicada en `/openapi/v1.json` (entorno Development).
+La documentación OpenAPI queda publicada en `/openapi/v1.json` y se puede explorar y probar con **Swagger UI** en `/swagger` (entorno Development).
 
 ## 5. Cómo ejecutar
 
@@ -173,6 +173,7 @@ Requisitos: .NET 10 SDK, SQL Server (Express o instancia local) y la herramienta
 
 ## 6. Evidencias
 
+- **Swagger UI**: con la API en ejecución, abrir `http://localhost:5080/swagger` y probar cada endpoint con *Try it out*.
 - **Postman**: importar `docs/SGCAE.postman_collection.json` y ejecutar la colección completa (*Run collection*) sobre una base de datos recién creada. Recorre todos los RF con casos exitosos y de error, y cada request tiene su prueba automática.
 - **Pruebas unitarias del dominio**: `dotnet test` ejecuta `AccessControl.Tests` (invariantes de empleado, credenciales y reglas de autorización de acceso).
 
