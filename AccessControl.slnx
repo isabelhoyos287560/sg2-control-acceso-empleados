@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="AccessControl.Application/AccessControl.Application.csproj" />
+    <Project Path="AccessControl.Domain/AccessControl.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="AccessControl.Persistence/AccessControl.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Presenters/">
+    <Project Path="AccessControl.Api/AccessControl.Api.csproj" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="ef.cmd" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="AccessControl.Tests/AccessControl.Tests.csproj" />
+  </Folder>
+</Solution>
