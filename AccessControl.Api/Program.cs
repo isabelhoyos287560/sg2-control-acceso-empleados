@@ -16,6 +16,12 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    // Interfaz Swagger UI sobre el documento OpenAPI generado por .NET (/openapi/v1.json)
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "AccessControl.Api v1");
+    });
 }
 
 await DataBaseSeeder.SeedAsync(app.Services);
