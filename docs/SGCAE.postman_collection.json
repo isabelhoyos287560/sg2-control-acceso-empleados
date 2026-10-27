@@ -24,6 +24,18 @@
     {
       "key": "newAccessPointId",
       "value": ""
+    },
+    {
+      "key": "ident",
+      "value": ""
+    },
+    {
+      "key": "email",
+      "value": ""
+    },
+    {
+      "key": "credCode",
+      "value": ""
     }
   ],
   "item": [
@@ -124,7 +136,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"identificationNumber\": \"1037000010\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez\",\n  \"email\": \"mateo.ramirez@logistica.com\",\n  \"position\": \"Montacarguista\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
+              "raw": "{\n  \"identificationNumber\": \"{{ident}}\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez\",\n  \"email\": \"{{email}}\",\n  \"position\": \"Montacarguista\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
             }
           },
           "event": [
@@ -135,6 +147,18 @@
                 "exec": [
                   "pm.test('Status ' + pm.response.code, function () { pm.expect(pm.response.code).to.be.below(500); });",
                   "pm.test('201 Created', () => pm.response.to.have.status(201)); pm.collectionVariables.set('employeeId', pm.response.json().data);"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const ts = Date.now().toString().slice(-10);",
+                  "pm.collectionVariables.set('ident', ts);",
+                  "pm.collectionVariables.set('email', 'mateo.' + ts + '@logistica.com');",
+                  "pm.collectionVariables.set('credCode', 'CRED-' + ts.slice(-8));"
                 ]
               }
             }
@@ -162,7 +186,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"identificationNumber\": \"1037000010\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez\",\n  \"email\": \"otro@logistica.com\",\n  \"position\": \"Montacarguista\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
+              "raw": "{\n  \"identificationNumber\": \"{{ident}}\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez\",\n  \"email\": \"otro@logistica.com\",\n  \"position\": \"Montacarguista\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
             }
           },
           "event": [
@@ -358,7 +382,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": \"{{employeeId}}\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez Ruiz\",\n  \"email\": \"mateo.ramirez@logistica.com\",\n  \"position\": \"Líder de bodega\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
+              "raw": "{\n  \"id\": \"{{employeeId}}\",\n  \"firstName\": \"Mateo\",\n  \"lastName\": \"Ramírez Ruiz\",\n  \"email\": \"{{email}}\",\n  \"position\": \"Líder de bodega\",\n  \"areaCode\": \"WAREHOUSE\"\n}"
             }
           },
           "event": [
@@ -400,7 +424,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"CRED-0010\"\n}"
+              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"{{credCode}}\"\n}"
             }
           },
           "event": [
@@ -438,7 +462,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"CRED-0011\"\n}"
+              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"{{credCode}}B\"\n}"
             }
           },
           "event": [
@@ -465,14 +489,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/credentials/CRED-0010",
+              "raw": "{{baseUrl}}/api/credentials/{{credCode}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "credentials",
-                "CRED-0010"
+                "{{credCode}}"
               ]
             }
           },
@@ -500,14 +524,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/credentials/CRED-0010/block",
+              "raw": "{{baseUrl}}/api/credentials/{{credCode}}/block",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "credentials",
-                "CRED-0010",
+                "{{credCode}}",
                 "block"
               ]
             }
@@ -535,14 +559,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/credentials/CRED-0010/unblock",
+              "raw": "{{baseUrl}}/api/credentials/{{credCode}}/unblock",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "credentials",
-                "CRED-0010",
+                "{{credCode}}",
                 "unblock"
               ]
             }
@@ -621,7 +645,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"credentialCode\": \"CRED-0010\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 1\n}"
+              "raw": "{\n  \"credentialCode\": \"{{credCode}}\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 1\n}"
             }
           },
           "event": [
@@ -659,7 +683,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"credentialCode\": \"CRED-0010\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 1\n}"
+              "raw": "{\n  \"credentialCode\": \"{{credCode}}\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 1\n}"
             }
           },
           "event": [
@@ -697,7 +721,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"credentialCode\": \"CRED-0010\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 2\n}"
+              "raw": "{\n  \"credentialCode\": \"{{credCode}}\",\n  \"accessPointId\": \"{{accessPointId}}\",\n  \"movementType\": 2\n}"
             }
           },
           "event": [
@@ -1289,14 +1313,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/credentials/CRED-0010/revoke",
+              "raw": "{{baseUrl}}/api/credentials/{{credCode}}/revoke",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "credentials",
-                "CRED-0010",
+                "{{credCode}}",
                 "revoke"
               ]
             }
@@ -1324,14 +1348,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/credentials/CRED-0010/block",
+              "raw": "{{baseUrl}}/api/credentials/{{credCode}}/block",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "credentials",
-                "CRED-0010",
+                "{{credCode}}",
                 "block"
               ]
             }
@@ -1406,7 +1430,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"CRED-0012\"\n}"
+              "raw": "{\n  \"employeeId\": \"{{employeeId}}\",\n  \"code\": \"{{credCode}}C\"\n}"
             }
           },
           "event": [
